@@ -16,9 +16,7 @@ class SVMForgeError(Exception):
     def __init__(self, message: str = "") -> None:
         self.message = message
         super().__init__(
-            f"[{self.code}] {self.doc}: {message}"
-            if message
-            else f"[{self.code}] {self.doc}"
+            f"[{self.code}] {self.doc}: {message}" if message else f"[{self.code}] {self.doc}"
         )
 
 
