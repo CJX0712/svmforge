@@ -63,9 +63,7 @@ def platt_predict(A: float, B: float, decision: np.ndarray) -> np.ndarray:
     return np.clip(p, 0.0, 1.0)
 
 
-def calibrate_binary(
-    model, X_val: np.ndarray, y_val_binary: np.ndarray
-) -> tuple[float, float]:
+def calibrate_binary(model, X_val: np.ndarray, y_val_binary: np.ndarray) -> tuple[float, float]:
     """Fit Platt (A,B) for a model exposing decision_function on a binary task."""
     f = model.decision_function(X_val).ravel()
     return platt_fit(f, y_val_binary.astype(int))
