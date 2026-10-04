@@ -14,9 +14,7 @@ from core.types import KernelSpec
 from kernels import get_kernel
 
 
-def _solve_binary_lssvm(
-    K: np.ndarray, yb: np.ndarray, C: float
-) -> tuple[np.ndarray, float]:
+def _solve_binary_lssvm(K: np.ndarray, yb: np.ndarray, C: float) -> tuple[np.ndarray, float]:
     """Return (alpha, b) for the LS-SVM primal dual system.
 
     Min 1/2||w||^2 + 1/2 gamma * sum e^2  s.t.  y_i(phi·x_i + b) = 1 - e_i.
