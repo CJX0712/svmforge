@@ -18,9 +18,7 @@ def accuracy(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     return float(np.mean(y_true == y_pred))
 
 
-def macro_f1(
-    y_true: np.ndarray, y_pred: np.ndarray, classes: np.ndarray | None = None
-) -> float:
+def macro_f1(y_true: np.ndarray, y_pred: np.ndarray, classes: np.ndarray | None = None) -> float:
     y_true = np.asarray(y_true).ravel()
     y_pred = np.asarray(y_pred).ravel()
     if classes is None:
@@ -71,11 +69,7 @@ def ece(y_true: np.ndarray, p_pred: np.ndarray, n_bins: int = 10) -> float:
     n = len(y)
     for i in range(n_bins):
         lo, hi = bins[i], bins[i + 1]
-        m = (
-            (conf >= lo) & (conf < hi)
-            if i < n_bins - 1
-            else (conf >= lo) & (conf <= hi)
-        )
+        m = (conf >= lo) & (conf < hi) if i < n_bins - 1 else (conf >= lo) & (conf <= hi)
         k = int(m.sum())
         if k == 0:
             continue
