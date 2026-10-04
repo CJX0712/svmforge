@@ -180,7 +180,9 @@ def main() -> int:
     tier0_secret_scan()
     tier1_push(args.repo, args.version, args.branch)
     tier2_release(args.repo, args.version)
-    print(f"[gh_push] done -> https://github.com/{args.repo}/releases/tag/{args.version}")
+    print(
+        f"[gh_push] done -> https://github.com/{args.repo}/releases/tag/{args.version}"
+    )
     return 0
 
 
