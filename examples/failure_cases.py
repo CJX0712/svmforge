@@ -30,7 +30,9 @@ def case_1_kernel_invariant() -> str:
     # diagonal. We assert it; a broken kernel would raise NumericsError here.
     G = get_kernel(KernelSpec("rbf", gamma=1.0)).gram(X)
     assert np.allclose(G, G.T, atol=1e-9), "kernel Gram must be symmetric"
-    assert np.allclose(np.diag(G), G[0, 0], atol=1e-9), "kernel diagonal must be constant"
+    assert np.allclose(np.diag(G), G[0, 0], atol=1e-9), (
+        "kernel diagonal must be constant"
+    )
     return "kernel symmetry + constant-diagonal invariants hold (broken kernel would raise)"
 
 
