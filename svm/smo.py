@@ -100,10 +100,7 @@ class BinarySMO:
                     b_new = bj
                 else:
                     b_new = 0.5 * (bi + bj)
-                delta = (
-                    yb[i] * (ai_new - ai_old) * K[:, i]
-                    + yb[j] * (aj_new - aj_old) * K[:, j]
-                )
+                delta = yb[i] * (ai_new - ai_old) * K[:, i] + yb[j] * (aj_new - aj_old) * K[:, j]
                 db = b_new - b
                 alpha[i], alpha[j] = ai_new, aj_new
                 E = E + delta + db
@@ -190,9 +187,7 @@ class SMOClassifier:
         self.binary_ = []
         for c in self.classes_:
             yb = (y == c).astype(int)
-            clf = BinarySMO(
-                self.kernel_spec, C=self.C, tol=self.tol, max_iter=self.max_iter
-            )
+            clf = BinarySMO(self.kernel_spec, C=self.C, tol=self.tol, max_iter=self.max_iter)
             clf.fit(X, yb)
             self.binary_.append(clf)
         self._fitted = True
