@@ -98,7 +98,9 @@ def available_dgps() -> list[str]:
     return sorted(_DGP.keys())
 
 
-def make_dataset(name: str, n_train: int, n_test: int, n_val: int, seed: int) -> Dataset:
+def make_dataset(
+    name: str, n_train: int, n_test: int, n_val: int, seed: int
+) -> Dataset:
     if name not in _DGP:
         raise ValueError(f"unknown DGP {name!r}; available={available_dgps()}")
     total = n_train + n_test + n_val
