@@ -84,7 +84,9 @@ def main() -> int:
         kf = KernelFuse(_bases(), C=1.0).fit(ds.X_train, ds.y_train, ds.X_val, ds.y_val)
         yhat_adv = kf.predict(ds.X_test)
         rows["adaptive"].append(accuracy(ds.y_test, yhat_adv))
-        rows["mean"].append(accuracy(ds.y_test, np.argmax(mean_fuse(models, ds.X_test), 1)))
+        rows["mean"].append(
+            accuracy(ds.y_test, np.argmax(mean_fuse(models, ds.X_test), 1))
+        )
         yhat_rnd = np.argmax(random_fuse(models, ds.X_test, rng), 1)
         rows["random"].append(accuracy(ds.y_test, yhat_rnd))
 
@@ -104,7 +106,9 @@ def main() -> int:
     # so adaptive should track or beat naive fusion within a small tolerance.
     tol = 0.01
     assert adv >= np.mean(rows["mean"]) - tol, "adaptive should not lose to mean fusion"
-    assert adv >= np.mean(rows["random"]) - tol, "adaptive should not lose to random fusion"
+    assert adv >= np.mean(rows["random"]) - tol, (
+        "adaptive should not lose to random fusion"
+    )
     print("ABLATION OK: adaptive select-or-fuse is non-inferior to naive fusion.")
     return 0
 
