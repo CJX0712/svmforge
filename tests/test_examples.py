@@ -1,4 +1,5 @@
 """Lock the demonstration scripts into CI (failure cases + ablation)."""
+
 import importlib.util
 import sys
 from pathlib import Path
