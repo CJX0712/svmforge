@@ -64,7 +64,12 @@ class KernelSpec:
         return f"{self.name}-g{self.gamma:g}-d{self.degree}-c{self.coef0:g}"
 
     def as_dict(self) -> dict:
-        return {"name": self.name, "gamma": self.gamma, "degree": self.degree, "coef0": self.coef0}
+        return {
+            "name": self.name,
+            "gamma": self.gamma,
+            "degree": self.degree,
+            "coef0": self.coef0,
+        }
 
 
 @dataclass
