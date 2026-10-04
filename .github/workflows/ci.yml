@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ruff + pytest + demo (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest
+
+      - name: Lint (ruff)
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+
+      - name: Unit tests (pytest)
+        run: python -m pytest -q
+
+      - name: Demo benchmark (2x determinism, <=60s budget)
+        run: python examples/run_demo.py
+
+      - name: Secret scan
+        run: |
+          if git grep -nE "(sk-[0-9a-zA-Z]{20}|ghp_[0-9a-zA-Z]{36}|xox[baprs]-[0-9a-zA-Z-]{10}|AKIA[0-9A-Z]{16})" -- ':!*.lock' ':!requirements.lock.txt'; then
+            echo "::error::Possible secret leaked — aborting."; exit 1
+          fi
+          echo "secret scan clean"

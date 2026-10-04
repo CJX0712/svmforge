@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Secrets / local
+.env
+*.secret
+*.token
+
+# Generated artifacts (NOT shipped)
+benchmark.json
+benchmark_*.json
+artifacts/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
