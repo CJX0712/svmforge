@@ -108,9 +108,7 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd")
     b = sub.add_parser("bench", help="run full benchmark and write benchmark.json")
     b.add_argument("--out", default="benchmark.json")
-    b.add_argument(
-        "--seeds", type=int, default=0, help="override number of seeds (0=use config)"
-    )
+    b.add_argument("--seeds", type=int, default=0, help="override number of seeds (0=use config)")
     b.add_argument("--datasets", nargs="*", default=None)
     b.add_argument("--methods", nargs="*", default=None)
     sub.add_parser("check", help="offline invariant self-checks (no downloads)")
