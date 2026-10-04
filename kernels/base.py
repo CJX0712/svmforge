@@ -18,15 +18,11 @@ __all__ = ["SUPPORTED", "Kernel", "get_kernel"]
 SUPPORTED = ("linear", "rbf", "poly", "sigmoid")
 
 
-def _linear(
-    X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float
-) -> np.ndarray:
+def _linear(X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float) -> np.ndarray:
     return X @ Y.T
 
 
-def _rbf(
-    X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float
-) -> np.ndarray:
+def _rbf(X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float) -> np.ndarray:
     if gamma <= 0.0:
         gamma = 1.0
     xx = np.sum(X * X, axis=1)[:, None]
@@ -36,18 +32,14 @@ def _rbf(
     return np.exp(-gamma * d2)
 
 
-def _poly(
-    X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float
-) -> np.ndarray:
+def _poly(X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float) -> np.ndarray:
     g = gamma if gamma > 0.0 else 1.0
     base = g * (X @ Y.T) + coef0
     base = np.clip(base, 0.0, None) if degree % 2 == 0 else base
     return np.power(base, degree)
 
 
-def _sigmoid(
-    X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float
-) -> np.ndarray:
+def _sigmoid(X: np.ndarray, Y: np.ndarray, gamma: float, degree: int, coef0: float) -> np.ndarray:
     g = gamma if gamma > 0.0 else 1.0
     return np.tanh(g * (X @ Y.T) + coef0)
 
