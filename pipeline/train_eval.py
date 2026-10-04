@@ -73,11 +73,7 @@ def evaluate(name: str, ds, cfg, seed) -> MetricReport:
     proba = clf.predict_proba(Xte)
     acc = accuracy(yte, pred)
     mf = macro_f1(yte, pred, classes=ds.classes)
-    a = (
-        auc(yte, proba[:, 1])
-        if ds.labels_are_binary() and proba.shape[1] == 2
-        else float("nan")
-    )
+    a = auc(yte, proba[:, 1]) if ds.labels_are_binary() and proba.shape[1] == 2 else float("nan")
     e = ece(yte, proba)
     ns = int(getattr(clf, "n_support_", 0))
     return MetricReport(
@@ -186,9 +182,7 @@ def summarize(reports: list[MetricReport], methods, cfg) -> dict:
     diff_knn = fmean - knn_mean
     paired_knn = _paired(reports, FLAGSHIP, "knn")
     win_tie_knn = (
-        (sum(1 for d in paired_knn if d >= -1e-9) / len(paired_knn))
-        if paired_knn
-        else 1.0
+        (sum(1 for d in paired_knn if d >= -1e-9) / len(paired_knn)) if paired_knn else 1.0
     )
     knn_ni = bool(diff_knn >= -cfg.gate_noninferior_tol)
 
@@ -223,12 +217,8 @@ def summarize(reports: list[MetricReport], methods, cfg) -> dict:
 
 def verify_determinism(run_a: dict, run_b: dict) -> bool:
     """True iff flagship + baseline accuracy tables are bit-identical (ignoring time)."""
-    a = {
-        (r["dataset"], r["method"], r["seed"]): r["accuracy"] for r in run_a["reports"]
-    }
-    b = {
-        (r["dataset"], r["method"], r["seed"]): r["accuracy"] for r in run_b["reports"]
-    }
+    a = {(r["dataset"], r["method"], r["seed"]): r["accuracy"] for r in run_a["reports"]}
+    b = {(r["dataset"], r["method"], r["seed"]): r["accuracy"] for r in run_b["reports"]}
     if set(a) != set(b):
         return False
     for k in a:
